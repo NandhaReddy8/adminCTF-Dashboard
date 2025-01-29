@@ -8,6 +8,9 @@ dotenv.config();
 const bodyparser = require("body-parser");
 const apiRouter = require("./routes/apiRoutes.js");
 
+// Add this line to address the deprecation warning
+mongoose.set('strictQuery', true);
+
 mongoose.connect(process.env.MONGODB_CONNSTRING, {
   authSource: "admin",
   useNewUrlParser: true,

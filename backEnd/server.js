@@ -17,7 +17,10 @@ const adminRouter = require("./routes/adminRoutes.js");
 const globalRouter = require("./routes/globalRoutes.js");
 const users = require("./models/userModel.js");
 
-mongoose.connect(process.env.MONGODB_CONNSTRING, {
+// Add this line to address the deprecation warning
+mongoose.set('strictQuery', true);
+
+mongoose.connect(process.env.MONGODB_CONNSTRING.replace("localhost", "127.0.0.1"), {
   authSource: "admin",
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -34,7 +37,7 @@ app.use(bodyparser.json());
 
 var sess = {
   store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_CONNSTRING,
+    mongoUrl: process.env.MONGODB_CONNSTRING.replace("localhost", "127.0.0.1"),
     touchAfter: 24 * 3600, // time period in seconds
   }),
   secret: process.env.SESSION_SECRET,

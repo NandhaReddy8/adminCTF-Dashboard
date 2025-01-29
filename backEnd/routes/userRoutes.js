@@ -5,6 +5,21 @@ const challengesController = require("../controllers/challengesController.js");
 const teamController = require("../controllers/teamController.js");
 const userController = require("../controllers/userController.js");
 const ctfConfig = require("../models/ctfConfigModel.js");
+const bcrypt = require('bcrypt');
+const User = require("../models/userModel.js");
+
+// Registration route
+router.post("/register", async (req, res) => {
+  const { username, email, password } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, email, password: hashedPassword });
+    await newUser.save();
+    res.status(201).send({ message: "User registered successfully" });
+  } catch (error) {
+    res.status(400).send({ message: "Error registering user", error });
+  }
+});
 
 router.post("/registerTeam", [validation.teamName()], (req, res) => {
   teamController.registerTeam(req, res);
