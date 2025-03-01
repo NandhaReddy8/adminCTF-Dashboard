@@ -5,7 +5,7 @@ const challengesController = require("../controllers/challengesController.js");
 const teamController = require("../controllers/teamController.js");
 const userController = require("../controllers/userController.js");
 const ctfConfig = require("../models/ctfConfigModel.js");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcryptjs");
 const User = require("../models/userModel.js");
 
 // Registration route
